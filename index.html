@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Auto QR Code Generator</title>
+  <link rel="stylesheet" href="style.css" />
+  <!-- QR Code Library CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+</head>
+<body>
+
+  <main class="card">
+    <h2>QR Code Generator</h2>
+    <p class="subtitle">Type text to generate a formatted QR code instantly</p>
+
+    <div class="input-group">
+      <input 
+        type="text" 
+        id="userInput" 
+        placeholder="Type here (e.g., A1c1)" 
+        autocomplete="off"
+        spellcheck="false"
+      />
+    </div>
+
+    <!-- Displays live transformed output (e.g., A-01-C-1) -->
+    <div id="outputDisplay" class="output-display" aria-live="polite">Waiting for input...</div>
+
+    <!-- Live QR Code container -->
+    <div id="qrcodeContainer" class="qrcode-container"></div>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>

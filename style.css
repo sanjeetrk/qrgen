@@ -1,0 +1,92 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+body {
+  background-color: #f3f4f6;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 16px;
+}
+
+/* Card adapts dynamically across screen sizes */
+.card {
+  background: #ffffff;
+  padding: 28px 20px;
+  border-radius: 16px;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.08),
+              0 8px 10px -6px rgba(0, 0, 0, 0.04);
+  width: 100%;
+  max-width: 440px;
+  text-align: center;
+}
+
+h2 {
+  color: #1f2937;
+  font-size: clamp(1.3rem, 4vw, 1.6rem);
+  margin-bottom: 6px;
+}
+
+.subtitle {
+  font-size: clamp(0.85rem, 2.5vw, 0.95rem);
+  color: #6b7280;
+  margin-bottom: 20px;
+}
+
+.input-group {
+  margin-bottom: 16px;
+}
+
+input {
+  width: 100%;
+  padding: 14px 16px;
+  border: 1.5px solid #d1d5db;
+  border-radius: 10px;
+  font-size: 16px; /* Prevents auto-zoom on mobile browsers */
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  text-align: center;
+}
+
+input:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+.output-display {
+  font-size: clamp(0.95rem, 3vw, 1.1rem);
+  font-weight: 700;
+  color: #111827;
+  background-color: #f8fafc;
+  border: 1px dashed #cbd5e1;
+  border-radius: 8px;
+  padding: 10px;
+  margin-bottom: 16px;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  word-break: break-all;
+}
+
+.qrcode-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 8px;
+  background: #ffffff;
+  border-radius: 12px;
+  margin: 0 auto;
+  min-height: 180px; /* Prevents layout jump when clearing */
+}
+
+.qrcode-container canvas,
+.qrcode-container img {
+  max-width: 100% !important;
+  height: auto !important;
+}
