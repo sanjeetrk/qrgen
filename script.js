@@ -1,6 +1,8 @@
 const userInput = document.getElementById("userInput");
-const outputDisplay = document.getElementById("outputDisplay");
+const badgeCard = document.getElementById("badgeCard");
+const badgeHeader = document.getElementById("badgeHeader");
 const qrcodeContainer = document.getElementById("qrcodeContainer");
+const presetButtons = document.querySelectorAll(".preset-btn");
 
 let qrInstance = null;
 let debounceTimer = null;
@@ -28,39 +30,57 @@ function formatInput(text) {
 }
 
 /**
+ * Formats the badge header display with a clean line-break after the hyphen
+ */
+function formatHeaderText(text) {
+  if (text.includes("-") && !text.includes("\n")) {
+    return text.replace("-", "-\n");
+  }
+  return text;
+}
+
+/**
  * Calculates adaptive QR size for different screen widths
  */
 function getResponsiveQrSize() {
   const screenWidth = window.innerWidth;
-  if (screenWidth < 360) return 160;
-  if (screenWidth < 480) return 190;
-  return 220;
+  if (screenWidth < 360) return 150;
+  if (screenWidth < 480) return 180;
+  return 200;
 }
 
 /**
  * Resets the preview and canvas
  */
 function resetQR() {
+  if (badgeCard) badgeCard.style.display = "none";
   qrcodeContainer.innerHTML = "";
-  outputDisplay.textContent = "Waiting for input...";
   qrInstance = null;
 }
 
 /**
  * Generates and updates the QR Code
  */
-function updateQRCode() {
-  const rawValue = userInput.value.trim();
+function updateQRCode(customValue = null) {
+  const rawValue = customValue !== null ? customValue : userInput.value;
 
-  if (!rawValue) {
+  if (!rawValue || !rawValue.trim()) {
     resetQR();
     return;
   }
 
+  // Apply original pattern formatting
   const formattedValue = formatInput(rawValue);
-  outputDisplay.textContent = `Formatted: ${formattedValue}`;
-  qrcodeContainer.innerHTML = "";
 
+  // Update header text and show badge
+  if (badgeHeader) {
+    badgeHeader.textContent = formatHeaderText(formattedValue);
+  }
+  if (badgeCard) {
+    badgeCard.style.display = "flex";
+  }
+
+  qrcodeContainer.innerHTML = "";
   const size = getResponsiveQrSize();
 
   qrInstance = new QRCode(qrcodeContainer, {
@@ -73,14 +93,25 @@ function updateQRCode() {
   });
 }
 
-// 1. Auto-clear when clicking/tapping the input box
+// 1. Preset button click handlers
+presetButtons.forEach((btn) => {
+  btn.addEventListener("click", () => {
+    const val = btn.getAttribute("data-value");
+    userInput.value = val;
+    updateQRCode(val);
+  });
+});
+
+// 2. Auto-clear when clicking/tapping the input box
 userInput.addEventListener("focus", () => {
   userInput.value = "";
   resetQR();
 });
 
-// 2. Real-time auto-generation while typing (with 150ms debounce)
+// 3. Real-time auto-generation while typing (with 150ms debounce)
 userInput.addEventListener("input", () => {
   clearTimeout(debounceTimer);
-  debounceTimer = setTimeout(updateQRCode, 150);
+  debounceTimer = setTimeout(() => {
+    updateQRCode();
+  }, 150);
 });
