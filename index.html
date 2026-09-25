@@ -12,23 +12,35 @@
 
   <main class="card">
     <h2>QR Code Generator</h2>
-    <p class="subtitle">Type text to generate a formatted QR code instantly</p>
+    <p class="subtitle">Type text or select a preset button to generate</p>
 
+    <!-- Quick-select buttons for preset QR codes -->
+    <div class="preset-btn-container">
+      <button type="button" class="preset-btn" data-value="IFC-PRN_123456">
+        IFC-PRN
+      </button>
+      <button type="button" class="preset-btn" data-value="WRT-OFF_123456">
+        WRT-OFF
+      </button>
+    </div>
+
+    <!-- Manual input box -->
     <div class="input-group">
       <input 
         type="text" 
         id="userInput" 
-        placeholder="Type here (e.g., A1c1)" 
+        placeholder="Type here or tap a button above" 
         autocomplete="off"
         spellcheck="false"
       />
     </div>
 
-    <!-- Displays live transformed output (e.g., A-01-C-1) -->
-    <div id="outputDisplay" class="output-display" aria-live="polite">Waiting for input...</div>
-
-    <!-- Live QR Code container -->
-    <div id="qrcodeContainer" class="qrcode-container"></div>
+    <!-- Responsive badge ticket container -->
+    <div id="badgeCard" class="badge-card" style="display: none;">
+      <div id="badgeHeader" class="badge-header"></div>
+      <div id="qrcodeContainer" class="qrcode-container"></div>
+      <div class="badge-footer">Scan to read value</div>
+    </div>
   </main>
 
   <script src="script.js"></script>
