@@ -12,7 +12,13 @@
 
   <main class="card">
     <h2>QR Code Generator</h2>
-    <p class="subtitle">Type text or select a preset button to generate</p>
+
+    <!-- QR Badge Ticket Container (Moved Above Buttons) -->
+    <div id="badgeCard" class="badge-card" style="display: none;">
+      <div id="badgeHeader" class="badge-header"></div>
+      <div id="qrcodeContainer" class="qrcode-container"></div>
+      <div class="badge-footer">Scan to read value</div>
+    </div>
 
     <!-- Quick-select buttons for preset QR codes -->
     <div class="preset-btn-container">
@@ -29,17 +35,10 @@
       <input 
         type="text" 
         id="userInput" 
-        placeholder="Type here or tap a button above" 
+        placeholder="Type here" 
         autocomplete="off"
         spellcheck="false"
       />
-    </div>
-
-    <!-- Responsive badge ticket container -->
-    <div id="badgeCard" class="badge-card" style="display: none;">
-      <div id="badgeHeader" class="badge-header"></div>
-      <div id="qrcodeContainer" class="qrcode-container"></div>
-      <div class="badge-footer">Scan to read value</div>
     </div>
   </main>
 
