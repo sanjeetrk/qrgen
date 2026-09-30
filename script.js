@@ -9,7 +9,6 @@ let debounceTimer = null;
 
 /**
  * Transforms patterns like "A1c1" into "A-01-C-1"
- * Automatically pads single-digit first numbers with a leading zero
  */
 function formatInput(text) {
   const trimmed = text.trim();
@@ -30,27 +29,30 @@ function formatInput(text) {
 }
 
 /**
- * Formats the badge header display with a clean line-break after the hyphen
+ * Keeps the header text on a single line
  */
 function formatHeaderText(text) {
-  if (text.includes("-") && !text.includes("\n")) {
-    return text.replace("-", "-\n");
-  }
-  return text;
+  return text.trim();
 }
 
 /**
- * Calculates adaptive QR size for different screen widths
+ * Adaptive QR size to prevent off-screen overflow when keyboard is open
  */
 function getResponsiveQrSize() {
-  const screenWidth = window.innerWidth;
-  if (screenWidth < 360) return 150;
-  if (screenWidth < 480) return 180;
-  return 200;
+  const vh = window.innerHeight;
+  const vw = window.innerWidth;
+
+  if (vh < 550) {
+    return 130;
+  }
+  if (vw < 380) {
+    return 150;
+  }
+  return 175;
 }
 
 /**
- * Resets the preview and canvas
+ * Resets preview
  */
 function resetQR() {
   if (badgeCard) badgeCard.style.display = "none";
@@ -69,10 +71,8 @@ function updateQRCode(customValue = null) {
     return;
   }
 
-  // Apply original pattern formatting
   const formattedValue = formatInput(rawValue);
 
-  // Update header text and show badge
   if (badgeHeader) {
     badgeHeader.textContent = formatHeaderText(formattedValue);
   }
@@ -91,27 +91,33 @@ function updateQRCode(customValue = null) {
     colorLight: "#ffffff",
     correctLevel: QRCode.CorrectLevel.H,
   });
+
+  // Ensure card remains smoothly positioned in view
+  setTimeout(() => {
+    badgeCard.scrollIntoView({ behavior: "smooth", block: "nearest" });
+  }, 50);
 }
 
-// 1. Preset button click handlers
+// 1. Preset button click listeners (Dismisses keyboard immediately)
 presetButtons.forEach((btn) => {
   btn.addEventListener("click", () => {
     const val = btn.getAttribute("data-value");
     userInput.value = val;
+    userInput.blur(); // Hides virtual keyboard
     updateQRCode(val);
   });
 });
 
-// 2. Auto-clear when clicking/tapping the input box
-userInput.addEventListener("focus", () => {
-  userInput.value = "";
-  resetQR();
-});
-
-// 3. Real-time auto-generation while typing (with 150ms debounce)
+// 2. Real-time typing listener (150ms debounce)
 userInput.addEventListener("input", () => {
   clearTimeout(debounceTimer);
   debounceTimer = setTimeout(() => {
     updateQRCode();
   }, 150);
+});
+
+// 3. Clear on focus
+userInput.addEventListener("focus", () => {
+  userInput.value = "";
+  resetQR();
 });
