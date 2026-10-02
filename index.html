@@ -4,8 +4,20 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Auto QR Code Generator</title>
+
+  <!-- Title bar dark theme color -->
+  <meta name="theme-color" content="#0b0f19" />
+  <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0b0f19" />
+  <meta name="theme-color" media="(prefers-color-scheme: light)" content="#0b0f19" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+  <link rel="manifest" href="./manifest.json" />
+  <link rel="apple-touch-icon" href="./icon-192.png" />
   <link rel="stylesheet" href="style.css" />
-  <!-- QR Code Library CDN -->
+
+  <!-- QR Code Library -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 </head>
 <body>
@@ -13,14 +25,20 @@
   <main class="card">
     <h2>QR Code Generator</h2>
 
-    <!-- QR Badge Ticket Container (Moved Above Buttons) -->
-    <div id="badgeCard" class="badge-card" style="display: none;">
-      <div id="badgeHeader" class="badge-header"></div>
-      <div id="qrcodeContainer" class="qrcode-container"></div>
-      <div class="badge-footer">Scan to read value</div>
+    <!-- Stage area containing Left History, Main QR Badge, and Right History -->
+    <div class="badge-stage">
+      <div id="historyLeft" class="history-slot" title="Click to reload"></div>
+
+      <div id="badgeCard" class="badge-card" style="display: none;">
+        <div id="badgeHeader" class="badge-header"></div>
+        <div id="qrcodeContainer" class="qrcode-container"></div>
+        <div class="badge-footer">Scan to read value</div>
+      </div>
+
+      <div id="historyRight" class="history-slot" title="Click to reload"></div>
     </div>
 
-    <!-- Quick-select buttons for preset QR codes -->
+    <!-- Quick preset buttons -->
     <div class="preset-btn-container">
       <button type="button" class="preset-btn" data-value="IFC-PRN_123456">
         IFC-PRN
@@ -30,18 +48,32 @@
       </button>
     </div>
 
-    <!-- Manual input box -->
+    <!-- Input group with clear button -->
     <div class="input-group">
       <input 
         type="text" 
         id="userInput" 
-        placeholder="Type here" 
+        placeholder="Type here"
         autocomplete="off"
         spellcheck="false"
       />
+      <button type="button" id="clearBtn" class="clear-btn" aria-label="Clear input" style="display: none;">
+        &times;
+      </button>
     </div>
   </main>
 
   <script src="script.js"></script>
+
+  <!-- Offline Service Worker -->
+  <script>
+    if ("serviceWorker" in navigator) {
+      window.addEventListener("load", () => {
+        navigator.serviceWorker
+          .register("./sw.js")
+          .catch((err) => console.error("SW Registration failed:", err));
+      });
+    }
+  </script>
 </body>
 </html>
