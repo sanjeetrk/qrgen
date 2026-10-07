@@ -213,7 +213,7 @@ userInput.addEventListener("input", () => {
     if (val.length >= 2) {
       pushHistory(formatInput(val));
     }
-  }, 600);
+  }, 1500);
 });
 
 // 3. User finishes typing and closes keyboard / clicks away
