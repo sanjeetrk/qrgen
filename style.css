@@ -221,6 +221,33 @@ h2 {
   transform: scale(0.96);
 }
 
+/* PBL button – emerald green */
+.preset-btn--pbl {
+  background: linear-gradient(135deg, #059669, #10b981);
+  box-shadow: 0 4px 10px rgba(5, 150, 105, 0.30);
+}
+.preset-btn--pbl:hover {
+  background: linear-gradient(135deg, #047857, #059669);
+}
+
+/* PBM button – violet */
+.preset-btn--pbm {
+  background: linear-gradient(135deg, #7c3aed, #8b5cf6);
+  box-shadow: 0 4px 10px rgba(124, 58, 237, 0.30);
+}
+.preset-btn--pbm:hover {
+  background: linear-gradient(135deg, #6d28d9, #7c3aed);
+}
+
+/* BBNow button – amber/orange */
+.preset-btn--bbnow {
+  background: linear-gradient(135deg, #d97706, #f59e0b);
+  box-shadow: 0 4px 10px rgba(217, 119, 6, 0.30);
+}
+.preset-btn--bbnow:hover {
+  background: linear-gradient(135deg, #b45309, #d97706);
+}
+
 /* Input and Clear Button */
 .input-group {
   position: relative;

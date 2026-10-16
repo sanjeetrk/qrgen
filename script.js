@@ -11,6 +11,11 @@ let qrDebounceTimer = null;
 let historyDebounceTimer = null;
 let historyList = [];
 
+// Random suffix generator for PBL / PBM (last 3 digits: 100–499)
+function randomPBSuffix() {
+  return Math.floor(Math.random() * 400) + 100; // 100 to 499
+}
+
 // Load persisted history from localStorage
 try {
   const saved = localStorage.getItem("qr_history_list");
@@ -195,6 +200,43 @@ presetButtons.forEach((btn) => {
     updateQRCode(val, true);
   });
 });
+
+// 2a. PBL random button
+const btnPBL = document.getElementById("btnPBL");
+if (btnPBL) {
+  btnPBL.addEventListener("click", () => {
+    const code = `PBL-3200490${randomPBSuffix()}`;
+    userInput.value = code;
+    userInput.blur();
+    updateQRCode(code, true);
+  });
+}
+
+// 2b. PBM random button
+const btnPBM = document.getElementById("btnPBM");
+if (btnPBM) {
+  btnPBM.addEventListener("click", () => {
+    const code = `PBM-3200490${randomPBSuffix()}`;
+    userInput.value = code;
+    userInput.blur();
+    updateQRCode(code, true);
+  });
+}
+
+// 2c. BBNow random button (BB + 9 random digits, each 1–9)
+const btnBBNow = document.getElementById("btnBBNow");
+if (btnBBNow) {
+  btnBBNow.addEventListener("click", () => {
+    let digits = "";
+    for (let i = 0; i < 9; i++) {
+      digits += Math.floor(Math.random() * 9 + 1); // 1–9
+    }
+    const code = `BB${digits}`;
+    userInput.value = code;
+    userInput.blur();
+    updateQRCode(code, true);
+  });
+}
 
 // 2. Real-time typing listener
 userInput.addEventListener("input", () => {
