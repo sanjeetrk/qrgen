@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Auto QR Code Generator</title>
+  <title>BB QR</title>
 
   <!-- Title bar dark theme color -->
   <meta name="theme-color" content="#0b0f19" />
@@ -20,6 +21,7 @@
   <!-- QR Code Library -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 </head>
+
 <body>
 
   <main class="card">
@@ -33,7 +35,8 @@
         <div id="historyLeft" class="history-slot" title="Click to reload"></div>
         <button id="arrowLeft" class="history-arrow" aria-label="Show more history" style="display:none;">
           <svg viewBox="0 0 10 6" width="10" height="6" fill="none">
-            <path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
+              stroke-linejoin="round" />
           </svg>
         </button>
         <div id="dropdownLeft" class="history-dropdown"></div>
@@ -50,7 +53,8 @@
         <div id="historyRight" class="history-slot" title="Click to reload"></div>
         <button id="arrowRight" class="history-arrow" aria-label="Show more history" style="display:none;">
           <svg viewBox="0 0 10 6" width="10" height="6" fill="none">
-            <path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
+              stroke-linejoin="round" />
           </svg>
         </button>
         <div id="dropdownRight" class="history-dropdown"></div>
@@ -72,20 +76,15 @@
       <button type="button" class="preset-btn preset-btn--pbm" id="btnPBM" data-type="pbm">
         PBM
       </button>
-      <button type="button" class="preset-btn preset-btn--bbnow" id="btnBBNow" data-type="bbnow" style="grid-column: 1 / -1;">
+      <button type="button" class="preset-btn preset-btn--bbnow" id="btnBBNow" data-type="bbnow"
+        style="grid-column: 1 / -1;">
         BBNow
       </button>
     </div>
 
     <!-- Input group with clear button -->
     <div class="input-group">
-      <input 
-        type="text" 
-        id="userInput" 
-        placeholder="Type here"
-        autocomplete="off"
-        spellcheck="false"
-      />
+      <input type="text" id="userInput" placeholder="Type here" autocomplete="off" spellcheck="false" />
       <button type="button" id="clearBtn" class="clear-btn" aria-label="Clear input" style="display: none;">
         &times;
       </button>
@@ -94,7 +93,7 @@
 
   <script src="script.js"></script>
 
-    <!-- Register the offline service worker -->
+  <!-- Register the offline service worker -->
   <script>
     if ("serviceWorker" in navigator) {
       window.addEventListener("load", () => {
@@ -107,4 +106,5 @@
     }
   </script>
 </body>
+
 </html>

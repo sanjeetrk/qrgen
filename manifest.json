@@ -1,8 +1,8 @@
 {
     "id": "./",
-    "name": "Auto QR Code Generator",
-    "short_name": "QR Generator",
-    "description": "Generate QR codes online or offline.",
+    "name": "BBQR",
+    "short_name": "BBQR",
+    "description": "Generate QR codes for BB.",
     "start_url": "./index.html",
     "scope": "./",
     "display": "standalone",
