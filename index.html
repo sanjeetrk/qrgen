@@ -23,19 +23,39 @@
 <body>
 
   <main class="card">
-    <h2>QR Code Generator</h2>
+    <!-- <h2>QR Code Generator</h2> -->
 
     <!-- Stage area containing Left History, Main QR Badge, and Right History -->
     <div class="badge-stage">
-      <div id="historyLeft" class="history-slot" title="Click to reload"></div>
+
+      <!-- Left history wrapper -->
+      <div id="historyLeftWrapper" class="history-wrapper">
+        <div id="historyLeft" class="history-slot" title="Click to reload"></div>
+        <button id="arrowLeft" class="history-arrow" aria-label="Show more history" style="display:none;">
+          <svg viewBox="0 0 10 6" width="10" height="6" fill="none">
+            <path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+        <div id="dropdownLeft" class="history-dropdown"></div>
+      </div>
 
       <div id="badgeCard" class="badge-card" style="display: none;">
         <div id="badgeHeader" class="badge-header"></div>
         <div id="qrcodeContainer" class="qrcode-container"></div>
-        <div class="badge-footer">Scan to read value</div>
+        <!-- <div class="badge-footer">Scan to read value</div> -->
       </div>
 
-      <div id="historyRight" class="history-slot" title="Click to reload"></div>
+      <!-- Right history wrapper -->
+      <div id="historyRightWrapper" class="history-wrapper">
+        <div id="historyRight" class="history-slot" title="Click to reload"></div>
+        <button id="arrowRight" class="history-arrow" aria-label="Show more history" style="display:none;">
+          <svg viewBox="0 0 10 6" width="10" height="6" fill="none">
+            <path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+        <div id="dropdownRight" class="history-dropdown"></div>
+      </div>
+
     </div>
 
     <!-- Quick preset buttons -->
@@ -74,13 +94,15 @@
 
   <script src="script.js"></script>
 
-  <!-- Offline Service Worker -->
+    <!-- Register the offline service worker -->
   <script>
     if ("serviceWorker" in navigator) {
       window.addEventListener("load", () => {
         navigator.serviceWorker
           .register("./sw.js")
-          .catch((err) => console.error("SW Registration failed:", err));
+          .catch((error) => {
+            console.error("Service worker registration failed:", error);
+          });
       });
     }
   </script>

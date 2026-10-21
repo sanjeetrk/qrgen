@@ -5,11 +5,14 @@ const badgeHeader = document.getElementById("badgeHeader");
 const qrcodeContainer = document.getElementById("qrcodeContainer");
 const historyLeft = document.getElementById("historyLeft");
 const historyRight = document.getElementById("historyRight");
+const dropdownLeft = document.getElementById("dropdownLeft");
+const dropdownRight = document.getElementById("dropdownRight");
 const presetButtons = document.querySelectorAll(".preset-btn");
 
 let qrDebounceTimer = null;
 let historyDebounceTimer = null;
 let historyList = [];
+let activeDropdown = null; // tracks which dropdown is open
 
 // Random suffix generator for PBL / PBM (last 3 digits: 100–499)
 function randomPBSuffix() {
@@ -117,9 +120,73 @@ function renderHistorySlot(container, value, label) {
   container.appendChild(card);
 }
 
+/**
+ * Render the full dropdown list (items 2–9, i.e. older entries)
+ */
+function renderDropdown(dropdownEl, startIndex) {
+  dropdownEl.innerHTML = "";
+
+  // Show items from startIndex up to 10
+  const items = historyList.slice(startIndex, 10);
+
+  if (items.length === 0) {
+    const empty = document.createElement("div");
+    empty.className = "history-dropdown-empty";
+    empty.textContent = "No older history";
+    dropdownEl.appendChild(empty);
+    return;
+  }
+
+  items.forEach((val, idx) => {
+    const item = document.createElement("div");
+    item.className = "history-dropdown-item";
+    item.innerHTML = `<span class="hdi-num">${startIndex + idx + 1}</span><span class="hdi-val">${val}</span>`;
+    item.addEventListener("click", (e) => {
+      e.stopPropagation();
+      userInput.value = val;
+      userInput.blur();
+      updateQRCode(val, false);
+      closeAllDropdowns();
+    });
+    dropdownEl.appendChild(item);
+  });
+}
+
+function openDropdown(dropdownEl, slotEl, startIndex) {
+  const arrowEl = dropdownEl.previousElementSibling; // the button
+  if (activeDropdown === dropdownEl) {
+    closeAllDropdowns();
+    return;
+  }
+  closeAllDropdowns();
+  renderDropdown(dropdownEl, startIndex);
+  dropdownEl.classList.add("open");
+  if (arrowEl) arrowEl.classList.add("rotated");
+  activeDropdown = dropdownEl;
+}
+
+function closeAllDropdowns() {
+  if (dropdownLeft) {
+    dropdownLeft.classList.remove("open");
+    const aL = dropdownLeft.previousElementSibling;
+    if (aL) aL.classList.remove("rotated");
+  }
+  if (dropdownRight) {
+    dropdownRight.classList.remove("open");
+    const aR = dropdownRight.previousElementSibling;
+    if (aR) aR.classList.remove("rotated");
+  }
+  activeDropdown = null;
+}
+
 function renderHistoryUI() {
   renderHistorySlot(historyLeft, historyList[0], "Prev 1");
   renderHistorySlot(historyRight, historyList[1], "Prev 2");
+  // Update arrow visibility
+  const arrowLeft = document.getElementById("arrowLeft");
+  const arrowRight = document.getElementById("arrowRight");
+  if (arrowLeft) arrowLeft.style.display = historyList.length > 2 ? "flex" : "none";
+  if (arrowRight) arrowRight.style.display = historyList.length > 2 ? "flex" : "none";
 }
 
 /**
@@ -132,8 +199,8 @@ function pushHistory(value) {
   // If already at the top of history, don't duplicate
   if (historyList[0] === cleanVal) return;
 
-  // Filter existing duplicates and keep top 2
-  historyList = [cleanVal, ...historyList.filter(item => item !== cleanVal)].slice(0, 2);
+  // Filter existing duplicates and keep top 10
+  historyList = [cleanVal, ...historyList.filter(item => item !== cleanVal)].slice(0, 10);
 
   try {
     localStorage.setItem("qr_history_list", JSON.stringify(historyList));
@@ -277,3 +344,34 @@ if (clearBtn) {
 
 // Initial history load
 renderHistoryUI();
+
+// Arrow button click handlers
+const arrowLeft = document.getElementById("arrowLeft");
+const arrowRight = document.getElementById("arrowRight");
+
+if (arrowLeft) {
+  arrowLeft.addEventListener("click", (e) => {
+    e.stopPropagation();
+    openDropdown(dropdownLeft, historyLeft, 2);
+  });
+}
+
+if (arrowRight) {
+  arrowRight.addEventListener("click", (e) => {
+    e.stopPropagation();
+    openDropdown(dropdownRight, historyRight, 2);
+  });
+}
+
+// Close dropdowns when clicking outside
+document.addEventListener("click", (e) => {
+  const leftWrapper = document.getElementById("historyLeftWrapper");
+  const rightWrapper = document.getElementById("historyRightWrapper");
+  if (
+    activeDropdown &&
+    !leftWrapper?.contains(e.target) &&
+    !rightWrapper?.contains(e.target)
+  ) {
+    closeAllDropdowns();
+  }
+});
