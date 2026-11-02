@@ -14,7 +14,7 @@ let historyDebounceTimer = null;
 let historyList = [];
 let activeDropdown = null; // tracks which dropdown is open
 
-// Random suffix generator for PBL / PBM (last 3 digits: 100–499)
+// Random suffix generator for CBL / CBM (last 3 digits: 100–499)
 function randomPBSuffix() {
   return Math.floor(Math.random() * 400) + 100; // 100 to 499
 }
@@ -268,25 +268,25 @@ presetButtons.forEach((btn) => {
   });
 });
 
-// 2a. PBL random button
-const btnPBL = document.getElementById("btnPBL");
-if (btnPBL) {
-  btnPBL.addEventListener("click", () => {
-    const code = `PBL-3200490${randomPBSuffix()}`;
+// 2a. CBL random button
+const btnCBL = document.getElementById("btnCBL");
+if (btnCBL) {
+  btnCBL.addEventListener("click", () => {
+    const code = `CBL-1618105${randomPBSuffix()}`;
     userInput.value = code;
     userInput.blur();
     updateQRCode(code, true);
   });
 }
 
-// 2b. PBM random button
-const btnPBM = document.getElementById("btnPBM");
-if (btnPBM) {
-  btnPBM.addEventListener("click", () => {
-    const code = `PBM-3200490${randomPBSuffix()}`;
+// 2b. CBM random button
+const btnCBM = document.getElementById("btnCBM");
+if (btnCBM) {
+  btnCBM.addEventListener("click", () => {
+    const code = `CBM-1618105${randomPBSuffix()}`;
     userInput.value = code;
     userInput.blur();
-    updateQRCode(code, true);
+    updateQRCode(code, true); 
   });
 }
 
