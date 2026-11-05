@@ -272,7 +272,7 @@ presetButtons.forEach((btn) => {
 const btnCBL = document.getElementById("btnCBL");
 if (btnCBL) {
   btnCBL.addEventListener("click", () => {
-    const code = `CBL-1618105${randomPBSuffix()}`;
+    const code = `CBL-6018105${randomPBSuffix()}`;
     userInput.value = code;
     userInput.blur();
     updateQRCode(code, true);
@@ -283,7 +283,7 @@ if (btnCBL) {
 const btnCBM = document.getElementById("btnCBM");
 if (btnCBM) {
   btnCBM.addEventListener("click", () => {
-    const code = `CBM-1618105${randomPBSuffix()}`;
+    const code = `CBM-6018105${randomPBSuffix()}`;
     userInput.value = code;
     userInput.blur();
     updateQRCode(code, true); 
